@@ -1,0 +1,35 @@
+@use '../../assets/variables.scss' as v;
+
+fieldset {
+    border: none;
+}
+
+.buttonGroup__label{
+    font-weight: 600;
+}
+
+.buttonGroup__container {
+    display: flex;
+    
+    button {
+        width: 100%;
+        border: 1px solid transparent;
+        padding: 0.6em 1.2em;
+        font-size: 1em;
+        font-weight: bold;
+        font-family: inherit;
+        cursor: pointer;
+        transition: border-color 0.25s;
+    }
+
+    button.buttonGroup__button {
+        background-color: v.$primary-color;
+    }
+
+    button.buttonGroup__button:hover,
+    button.buttonGroup__button:focus,
+    button.buttonGroup__button--isSelected{
+        background-color: v.$secondary-color;
+    }
+
+}
