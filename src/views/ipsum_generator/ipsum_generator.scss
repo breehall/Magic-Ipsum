@@ -1,0 +1,17 @@
+
+
+section#ipsum-generator  {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 40vw;
+    max-width: 50vw;
+    min-height: 100vh;
+
+    label {
+        font-weight: 600;
+    }
+}
