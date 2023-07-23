@@ -1,106 +1,4 @@
-const AVAILABLE_TERMS = [
-  'abracadabra',
-  'adventureland',
-  'animal kingdom',
-  'anna',
-  'ariel',
-  'aurora',
-  'balloon',
-  'belle',
-  'beverly',
-  'bibbidi bobbidi',
-  'big thunder mountain',
-  'california adventure',
-  'carousel of progress',
-  'castle',
-  'churro',
-  'cinderella',
-  'confectionary',
-  'contemporary',
-  'corn dog',
-  'creation',
-  'daisy',
-  'disney springs',
-  'disney world',
-  'disneyland',
-  'dole whip',
-  'donald',
-  'downtown disney',
-  'dumbo',
-  'elsa',
-  'enchantment',
-  'epcot',
-  'expedition everest',
-  'fantasmic',
-  'fantasy',
-  'festival of the arts',
-  'figment',
-  'fireworks',
-  'flower and garden',
-  'food and wine',
-  'friendship boats',
-  'frontierland ',
-  'goofy',
-  'grand californian',
-  'grand floridian',
-  'great wilderness',
-  'happily ever after',
-  'haunted mansion',
-  'hollywood studios',
-  'imagination',
-  'jasmine',
-  "joffrey's",
-  'loungefly',
-  'magic',
-  'magic kingdom',
-  'main street',
-  'merida',
-  'mickey',
-  'millenium falcon',
-  'minnie',
-  'moana',
-  'monorail',
-  'mulan',
-  "na'vi river",
-  'not-so-scary',
-  'ohana',
-  'parade',
-  'party',
-  'peoplemover',
-  'peterpan',
-  'pirate',
-  'pluto',
-  'pocahontas',
-  'popcorn',
-  'dolewhip',
-  'pretzel',
-  'rapunzel',
-  'rose',
-  'roundup rodeo',
-  'runaway railway',
-  'skyliner',
-  'slinky dog',
-  'small world',
-  'snow white',
-  'soarin',
-  'space mountain',
-  'spaceship earth',
-  'speedway',
-  'splash mountain',
-  'starjumper ',
-  'test track',
-  'tiana',
-  'tomorrowland',
-  'tree of life',
-  'tron',
-  'very merry',
-  'walt',
-  'wish',
-  'wonder',
-  'world showcase',
-];
-
-const MAGIC_IPSUM_STARTER = 'Magic ipsum dolor sit amet ';
+import { AVAILABLE_TERMS, MAGIC_IPSUM_STARTER } from './terms';
 
 const getRandomInt = (max: number): number => {
   return Math.floor(Math.random() * max);
@@ -115,19 +13,17 @@ const getRandomTerm = (): string => {
 };
 
 // Combine 5-7 terms to create a sentence
-export const generateSentence = (startWithMagic: boolean): string => {
-  const numberOfTerms = startWithMagic
-    ? getRandomIntFromInterval(2, 4)
-    : getRandomIntFromInterval(5, 7);
+const generateSentence = (): string => {
+  const numberOfTerms = getRandomIntFromInterval(4, 6);
 
-  let sentence = startWithMagic ? MAGIC_IPSUM_STARTER : '';
+  let sentence = '';
 
   for (let i = 0; i <= numberOfTerms; i++) {
-    if (i === 0 && !startWithMagic) {
+    if (i === 0) {
       const term = getRandomTerm();
       sentence += term.charAt(0).toUpperCase() + term.substring(1) + ' ';
     } else if (i === numberOfTerms) {
-      sentence += getRandomTerm() + '. ';
+      sentence += getRandomTerm() + '. \n';
     } else {
       sentence += getRandomTerm() + ' ';
     }
@@ -136,7 +32,7 @@ export const generateSentence = (startWithMagic: boolean): string => {
   return sentence;
 };
 
-type ParagraphLength = 'short' | 'medium' | 'long';
+export type ParagraphLength = 'short' | 'medium' | 'long';
 const PARAGRAPH_PROPS = {
   short: {
     minNumOfSentences: 3,
@@ -151,21 +47,43 @@ const PARAGRAPH_PROPS = {
     maxNumOfSentences: 13,
   },
 };
-export const generateParagraphs = (length: ParagraphLength): string => {
-  const numOfSentences = getRandomIntFromInterval(
+
+// Combine sentences to create paragraphs
+const generateParagraph = (length: ParagraphLength): string => {
+  const numberOfSentences = getRandomIntFromInterval(
     PARAGRAPH_PROPS[length].minNumOfSentences,
     PARAGRAPH_PROPS[length].maxNumOfSentences
   );
 
   let paragraph = '';
 
-  for (
-    let sentenceIndex = 0;
-    sentenceIndex <= numOfSentences;
-    sentenceIndex++
-  ) {
-    paragraph += generateSentence(false);
+  for (let i = 0; i <= numberOfSentences; i++) {
+    paragraph += generateSentence();
   }
 
   return paragraph;
+};
+
+// Create paragraphs and return Magic Ipsum text block
+export const composeMagicIpsum = (
+  numberOfParagraphs: number,
+  length: ParagraphLength,
+  startWithMagic: boolean
+): string[] => {
+  let ipsumText = [];
+
+  for (let i = 0; i < numberOfParagraphs; i++) {
+    let currentParagraph = startWithMagic ? MAGIC_IPSUM_STARTER : '';
+
+    if (i === 0 && startWithMagic) {
+      const newParagraph = generateParagraph(length);
+      currentParagraph +=
+        newParagraph.charAt(0).toLowerCase() + newParagraph.substring(1);
+      ipsumText.push(currentParagraph);
+    } else {
+      ipsumText.push(generateParagraph(length));
+    }
+  }
+
+  return ipsumText;
 };
