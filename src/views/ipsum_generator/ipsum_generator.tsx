@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { ButtonGroup } from '../../components';
+import { useState, useEffect, useCallback } from 'react';
+import { ButtonGroup, PolaroidPhoto } from '../../components';
 import { ParagraphLength, composeMagicIpsum } from '../../utils';
 import './ipsum_generator.scss';
 
 export const IpsumGenerator = () => {
-  const [amountOfParagraphs, setAmountOfParagraphs] = useState(1);
+  const [amountOfParagraphs, setAmountOfParagraphs] = useState(3);
   const [lengthOfParagraphs, setLengthOfParagraphs] = useState('short');
   const [startWithMagic, setStartWithMagic] = useState<boolean>(false);
-  const [generatedIpsum, setGeneratedIpsum] = useState<string[]>([]);
+  const [generatedIpsum, setGeneratedIpsum] = useState<string>();
 
   const generateMagicIpsum = useCallback(() => {
     setGeneratedIpsum(
@@ -20,9 +20,17 @@ export const IpsumGenerator = () => {
   }, [amountOfParagraphs, lengthOfParagraphs, startWithMagic]);
 
   useEffect(() => {
-    console.log('running effect');
     generateMagicIpsum();
   }, [generateMagicIpsum]);
+
+  const copyToClipboard = () => {
+    const generatedText = document.getElementById(
+      'ipsum-generator__output'
+    )?.innerHTML;
+    if (generatedText) {
+      navigator.clipboard.writeText(generatedText).then(() => {});
+    }
+  };
 
   const paragraphAmountButtonGroupItems = [
     {
@@ -72,41 +80,61 @@ export const IpsumGenerator = () => {
 
   return (
     <section id="ipsum-generator">
-      <ButtonGroup
-        items={paragraphAmountButtonGroupItems}
-        label="✨ Paragraph Amount ✨"
-        defaultSelectedId="paragraph-amount-btn-1"
-        onClick={(e) => {
-          setAmountOfParagraphs(Number((e.target as HTMLButtonElement).value));
-        }}
-      />
+      <p>
+        Lorem ipsum doesn't have to be boring. Add a sprinkle of Disney magic to
+        your next project.
+      </p>
 
-      <ButtonGroup
-        items={paragraphLengthButtonGroupItems}
-        label="✨ Paragraph Length ✨"
-        defaultSelectedId="paragraph-short-btn-short"
-        onClick={(e) => {
-          setLengthOfParagraphs((e.target as HTMLButtonElement).value);
-        }}
-      />
+      <div className="ipsum-generator__form">
+        <div className="ipsum-generator__photos">
+          <PolaroidPhoto />
+        </div>
 
-      <div>
-        <input
-          type="checkbox"
-          onChange={() => {
-            setStartWithMagic(!startWithMagic);
-          }}
-          name="generator-startWithMagic"
-          id="generator-startWithMagic"
-        />
-        <label htmlFor="generator-startWithMagic">
-          🪄 Start with "Magic ipsum dolor sit amet"
-        </label>
+        <div className="ipsum-generator__generator">
+          <ButtonGroup
+            items={paragraphAmountButtonGroupItems}
+            label="✨ Paragraph Amount ✨"
+            defaultSelectedId={`paragraph-amount-btn-${amountOfParagraphs}`}
+            onClick={(e) => {
+              setAmountOfParagraphs(
+                Number((e.target as HTMLButtonElement).value)
+              );
+            }}
+          />
+
+          <ButtonGroup
+            items={paragraphLengthButtonGroupItems}
+            label="✨ Paragraph Length ✨"
+            defaultSelectedId={`paragraph-short-btn-${lengthOfParagraphs}`}
+            onClick={(e) => {
+              setLengthOfParagraphs((e.target as HTMLButtonElement).value);
+            }}
+          />
+
+          <div>
+            <input
+              type="checkbox"
+              onChange={() => {
+                setStartWithMagic(!startWithMagic);
+              }}
+              name="generator-startWithMagic"
+              id="generator-startWithMagic"
+            />
+            <label htmlFor="generator-startWithMagic">
+              <span id="startWithMagicReset">🪄 Start with</span> "Magic ipsum
+              dolor sit amet"
+            </label>
+          </div>
+
+          <textarea
+            id="ipsum-generator__output"
+            defaultValue={generatedIpsum}
+            readOnly
+          ></textarea>
+
+          <button onClick={copyToClipboard}>🪄 Copy to clipboard</button>
+        </div>
       </div>
-
-      {generatedIpsum.map((paragraph, key) => {
-        return <p key={key}>{paragraph}</p>;
-      })}
     </section>
   );
 };

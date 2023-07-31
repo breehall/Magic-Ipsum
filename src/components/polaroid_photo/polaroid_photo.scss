@@ -1,0 +1,20 @@
+.polaroid__container {
+    height: 300px;
+    width: 300px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid rgba(100, 100, 111, 0.1);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transform: rotate(-3deg);
+
+    .polaroid__image {
+        height: 220px;
+        width: 280px;
+        padding-top: 20px;
+        object-fit: cover;
+    }
+
+    p {
+        margin-top: 10px;
+    }
+}

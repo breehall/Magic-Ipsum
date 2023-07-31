@@ -1,18 +1,13 @@
-import { useState } from 'react';
-
-import './App.scss';
-
 import { Header, Footer, IpsumGenerator } from './views';
 
-function App() {
+const App = () => {
   return (
-    <>
+    <main>
       <Header />
-
       <IpsumGenerator />
       <Footer />
-    </>
+    </main>
   );
-}
+};
 
 export default App;

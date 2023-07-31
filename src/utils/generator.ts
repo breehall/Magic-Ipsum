@@ -1,6 +1,6 @@
 import { AVAILABLE_TERMS, MAGIC_IPSUM_STARTER } from './terms';
 
-const getRandomInt = (max: number): number => {
+export const getRandomInt = (max: number): number => {
   return Math.floor(Math.random() * max);
 };
 
@@ -23,7 +23,7 @@ const generateSentence = (): string => {
       const term = getRandomTerm();
       sentence += term.charAt(0).toUpperCase() + term.substring(1) + ' ';
     } else if (i === numberOfTerms) {
-      sentence += getRandomTerm() + '. \n';
+      sentence += getRandomTerm() + '. ';
     } else {
       sentence += getRandomTerm() + ' ';
     }
@@ -69,8 +69,8 @@ export const composeMagicIpsum = (
   numberOfParagraphs: number,
   length: ParagraphLength,
   startWithMagic: boolean
-): string[] => {
-  let ipsumText = [];
+): string => {
+  let ipsumText = '';
 
   for (let i = 0; i < numberOfParagraphs; i++) {
     let currentParagraph = startWithMagic ? MAGIC_IPSUM_STARTER : '';
@@ -79,10 +79,12 @@ export const composeMagicIpsum = (
       const newParagraph = generateParagraph(length);
       currentParagraph +=
         newParagraph.charAt(0).toLowerCase() + newParagraph.substring(1);
-      ipsumText.push(currentParagraph);
+      ipsumText += currentParagraph;
     } else {
-      ipsumText.push(generateParagraph(length));
+      ipsumText += generateParagraph(length);
     }
+
+    ipsumText += ' \n \n';
   }
 
   return ipsumText;

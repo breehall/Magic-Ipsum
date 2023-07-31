@@ -1,20 +1,18 @@
 
+@use './assets/variables.scss' as v;
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap');
 
 
+/* Global Styles */
 :root, html, body {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
+  font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 :root, html {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  
-
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -22,22 +20,62 @@
   -webkit-text-size-adjust: 100%;
 }
 
+/* Resets */
+fieldset {
+  border: none;
+}
+
+h1, p {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-width: 40vw;
+  max-width: 60vw;
+}
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  font-weight: bold;
 }
 
+/* Common Styles */
+header, section, footer {
+  padding: 1.5em;
+}
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+button {
+  background-color: v.$primary-color;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+button:hover,
+button:focus{
+    background-color: v.$secondary-color;
+}
+
+label, legend {
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 600px) { 
+  body{
+    max-width: 85vw;
   }
-  a:hover {
-    color: #747bff;
+
+  header, section, footer {
+    padding: .5em;
   }
-  button {
-    background-color: #f9f9f9;
+
+  h1 {
+    margin-top: 1em;
+    font-size: 2.5em;
   }
 }
