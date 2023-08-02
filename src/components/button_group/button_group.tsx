@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FunctionComponent, useState } from 'react';
 import './button_group.scss';
 
@@ -22,10 +23,11 @@ export const ButtonGroup: FunctionComponent<ButtonGroupProps> = ({
 }) => {
   const [selectedId, setSelectedId] = useState(defaultSelectedId);
 
-  const handleButtonOnClick = (e) => {
+  const handleButtonOnClick = (e: any) => {
     onClick(e);
     setSelectedId(e.target.id);
   };
+
   return (
     <>
       <fieldset>
